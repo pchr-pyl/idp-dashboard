@@ -78,7 +78,7 @@ const generateEmployee = (name, idx) => {
     bmiLevel: getBMILevel(bmi),
     waist, waistRisk,
     dietScore, exerciseDays, sedentaryHours,
-    bmiRisk, waistRisk, dietRisk, exerciseRisk, sedentaryRisk,
+    bmiRisk, dietRisk, exerciseRisk, sedentaryRisk,
     riskCount, physicalGroup,
     smokeCig, smokeVape, alcohol, substance, hasRiskyBehavior,
     ncdList, hasNCD: ncdList.length > 0,
@@ -219,9 +219,9 @@ export default function PhysicalDashboard() {
             background: "rgba(0,0,0,0.2)", borderRadius: "10px 10px 0 0",
             padding: "10px 20px", display: "flex", gap: 24, fontSize: 12, color: "#D1FAE5"
           }}>
-            <span>📐 <strong>ชั้น 1 — ปัจจัยเสี่ยงกาย:</strong> BMI + การกิน + ออกกำลังกาย</span>
-            <span>🚬 <strong>ชั้น 2 — พฤติกรรมเสี่ยง:</strong> สูบ / ดื่ม / เสพ</span>
-            <span>🏥 <strong>ชั้น 3 — NCD:</strong> โรคที่เป็นอยู่แล้ว (ข้อมูลอ่อนไหว)</span>
+            <span>📐 <strong>ชั้น 1 -- ปัจจัยเสี่ยงกาย:</strong> BMI + การกิน + ออกกำลังกาย</span>
+            <span>🚬 <strong>ชั้น 2 -- พฤติกรรมเสี่ยง:</strong> สูบ / ดื่ม / เสพ</span>
+            <span>🏥 <strong>ชั้น 3 -- NCD:</strong> โรคที่เป็นอยู่แล้ว (ข้อมูลอ่อนไหว)</span>
           </div>
 
           {/* Tabs */}
@@ -251,7 +251,7 @@ export default function PhysicalDashboard() {
             <div style={{ background: "#fff", borderRadius: 16, padding: 24, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
                 <div style={{ width: 4, height: 20, background: "#0F766E", borderRadius: 2 }} />
-                <div style={{ fontSize: 15, fontWeight: 800, color: "#134E4A" }}>ชั้น 1 — ปัจจัยเสี่ยงกาย</div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#134E4A" }}>ชั้น 1 -- ปัจจัยเสี่ยงกาย</div>
                 <span style={{ fontSize: 12, color: "#6B7280" }}>กลุ่มเสี่ยง = มี 3 ปัจจัยขึ้นไป</span>
               </div>
 
@@ -312,7 +312,7 @@ export default function PhysicalDashboard() {
               <div style={{ background: "#fff", borderRadius: 16, padding: 24, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
                   <div style={{ width: 4, height: 20, background: "#D97706", borderRadius: 2 }} />
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "#92400E" }}>ชั้น 2 — พฤติกรรมเสี่ยง</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: "#92400E" }}>ชั้น 2 -- พฤติกรรมเสี่ยง</div>
                 </div>
                 {[
                   { label: "🚬 สูบบุหรี่ (มวน)",      key: "smokeCig",  icon: "🚬" },
@@ -361,7 +361,7 @@ export default function PhysicalDashboard() {
               <div style={{ background: "#fff", borderRadius: 16, padding: 24, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                   <div style={{ width: 4, height: 20, background: "#7C3AED", borderRadius: 2 }} />
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "#4C1D95" }}>ชั้น 3 — NCD (โรคที่เป็นอยู่)</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: "#4C1D95" }}>ชั้น 3 -- NCD (โรคที่เป็นอยู่)</div>
                 </div>
                 <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 16 }}>
                   🔒 ข้อมูลอ่อนไหว · แสดงรายชื่อเฉพาะ HR ผู้รับผิดชอบ
@@ -396,7 +396,7 @@ export default function PhysicalDashboard() {
                 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: "#4C1D95" }}>🏥 เสี่ยงกาย + มีโรค NCD</div>
                   <div style={{ fontSize: 24, fontWeight: 800, color: "#7C3AED", marginTop: 4 }}>{highAndNCD.length} คน</div>
-                  <div style={{ fontSize: 11, color: "#5B21B6" }}>กลุ่มเปราะบาง — ต้องดูแลเร่งด่วนที่สุด</div>
+                  <div style={{ fontSize: 11, color: "#5B21B6" }}>กลุ่มเปราะบาง -- ต้องดูแลเร่งด่วนที่สุด</div>
                 </div>
               </div>
             </div>
@@ -648,7 +648,7 @@ export default function PhysicalDashboard() {
                     {/* Layer 3: NCD */}
                     <div style={{ background: "#fff", borderRadius: 14, padding: 18, boxShadow: "0 1px 3px rgba(0,0,0,0.06)", borderTop: "3px solid #7C3AED" }}>
                       <div style={{ fontSize: 12, fontWeight: 800, color: "#4C1D95", marginBottom: 6 }}>🏥 NCD (โรคที่มีอยู่)</div>
-                      <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 14 }}>🔒 ข้อมูลอ่อนไหว — เฉพาะ HR</div>
+                      <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 14 }}>🔒 ข้อมูลอ่อนไหว -- เฉพาะ HR</div>
                       {selectedEmp.hasNCD ? (
                         <>
                           {selectedEmp.ncdList.map((ncd, i) => (
@@ -689,7 +689,7 @@ export default function PhysicalDashboard() {
                   {/* IDP Priority */}
                   <div style={{ background: "#fff", borderRadius: 14, padding: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                     <div style={{ fontSize: 13, fontWeight: 800, color: "#111827", marginBottom: 14 }}>
-                      🎯 ลำดับความสำคัญ IDP มิติกาย — {selectedEmp.name}
+                      🎯 ลำดับความสำคัญ IDP มิติกาย -- {selectedEmp.name}
                     </div>
                     <div style={{ display: "flex", gap: 12 }}>
                       {[

@@ -1,37 +1,37 @@
-import { useState } from “react”;
+import { useState } from "react";
 import {
 BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
 ResponsiveContainer, RadarChart, Radar, PolarGrid,
 PolarAngleAxis, PolarRadiusAxis, Legend
-} from “recharts”;
+} from "recharts";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
-const DEPTS = [“นโยบาย”, “ปฏิบัติการ”, “สนับสนุน”];
+const DEPTS = ["นโยบาย", "ปฏิบัติการ", "สนับสนุน"];
 const NAMES = [
-“นายสมชาย ใจดี”,“นางสาวมาลี รักสุข”,“นายประสิทธิ์ ทำงาน”,“นางวิภา สดใส”,
-“นายกิตติ เก่งมาก”,“นางสาวอัญชลี ร่าเริง”,“นายวีระ ขยันดี”,“นางรัตนา มีสุข”,
-“นายพิทักษ์ ตั้งใจ”,“นางสาวสุภา สวยงาม”,“นายอนุชา ดีเลิศ”,“นางเพ็ญศรี แจ่มใส”,
-“นายชัยวัฒน์ รุ่งเรือง”,“นางสาวนิภา ยิ้มแย้ม”,“นายสุรศักดิ์ มั่นคง”,
-“นางกัลยา ใสสะอาด”,“นายธนพล ฉลาดดี”,“นางสาวลัดดา สะอาด”,
-“นายปิยะ เฉลียวฉลาด”,“นางวรรณา สุขสบาย”,
+"นายสมชาย ใจดี","นางสาวมาลี รักสุข","นายประสิทธิ์ ทำงาน","นางวิภา สดใส",
+"นายกิตติ เก่งมาก","นางสาวอัญชลี ร่าเริง","นายวีระ ขยันดี","นางรัตนา มีสุข",
+"นายพิทักษ์ ตั้งใจ","นางสาวสุภา สวยงาม","นายอนุชา ดีเลิศ","นางเพ็ญศรี แจ่มใส",
+"นายชัยวัฒน์ รุ่งเรือง","นางสาวนิภา ยิ้มแย้ม","นายสุรศักดิ์ มั่นคง",
+"นางกัลยา ใสสะอาด","นายธนพล ฉลาดดี","นางสาวลัดดา สะอาด",
+"นายปิยะ เฉลียวฉลาด","นางวรรณา สุขสบาย",
 ];
 
 // อันตรายในที่ทำงาน 6 ข้อ (ข้อ 85-90)
 const HAZARDS = [
-{ key: “sunlight”,  label: “แสงแดด/แสงจ้า”,         icon: “☀️”, q: “ข้อ 85”, idp: “สวมแว่นกันแดด / หมวก / ครีมกันแดด / จัดตารางหลีกเลี่ยงแดดจัด” },
-{ key: “noise”,     label: “เสียงดัง/สั่นสะเทือน”,  icon: “🔊”, q: “ข้อ 86”, idp: “สวมที่อุดหู (Ear Plug) / จัดเวลาพักในพื้นที่เงียบ” },
-{ key: “chemical”,  label: “กลิ่นสารเคมี”,           icon: “🧪”, q: “ข้อ 87”, idp: “สวมหน้ากาก N95 / ตรวจสอบอุปกรณ์ป้องกัน / แจ้งผู้ดูแลความปลอดภัย” },
-{ key: “fume”,      label: “ควัน/ไอระเหย”,           icon: “💨”, q: “ข้อ 88”, idp: “สวม PPE / ระบายอากาศพื้นที่ทำงาน / พักในที่อากาศถ่ายเท” },
-{ key: “posture”,   label: “นั่ง/ยืนท่าเดิมนาน”,    icon: “🪑”, q: “ข้อ 89”, idp: “ลุกเดินทุก 30 นาที / ปรับโต๊ะ-เก้าอี้ Ergonomic / ยืดเหยียดกล้ามเนื้อ” },
-{ key: “awkward”,   label: “ท่าทางฝืนธรรมชาติ”,     icon: “🏋️”, q: “ข้อ 90”, idp: “ฝึก Body Mechanics / ปรับวิธีทำงาน / พบนักกายภาพบำบัด” },
+{ key: "sunlight",  label: "แสงแดด/แสงจ้า",         icon: "☀️", q: "ข้อ 85", idp: "สวมแว่นกันแดด / หมวก / ครีมกันแดด / จัดตารางหลีกเลี่ยงแดดจัด" },
+{ key: "noise",     label: "เสียงดัง/สั่นสะเทือน",  icon: "🔊", q: "ข้อ 86", idp: "สวมที่อุดหู (Ear Plug) / จัดเวลาพักในพื้นที่เงียบ" },
+{ key: "chemical",  label: "กลิ่นสารเคมี",           icon: "🧪", q: "ข้อ 87", idp: "สวมหน้ากาก N95 / ตรวจสอบอุปกรณ์ป้องกัน / แจ้งผู้ดูแลความปลอดภัย" },
+{ key: "fume",      label: "ควัน/ไอระเหย",           icon: "💨", q: "ข้อ 88", idp: "สวม PPE / ระบายอากาศพื้นที่ทำงาน / พักในที่อากาศถ่ายเท" },
+{ key: "posture",   label: "นั่ง/ยืนท่าเดิมนาน",    icon: "🪑", q: "ข้อ 89", idp: "ลุกเดินทุก 30 นาที / ปรับโต๊ะ-เก้าอี้ Ergonomic / ยืดเหยียดกล้ามเนื้อ" },
+{ key: "awkward",   label: "ท่าทางฝืนธรรมชาติ",     icon: "🏋️", q: "ข้อ 90", idp: "ฝึก Body Mechanics / ปรับวิธีทำงาน / พบนักกายภาพบำบัด" },
 ];
 
 // PM2.5 อาการ (ข้อ 92)
 const PM_SYMPTOMS = [
-{ key: “cough”,    label: “ไอ คัดจมูก น้ำมูก แสบคอ” },
-{ key: “breath”,   label: “หายใจไม่เต็มอิ่ม” },
-{ key: “eye”,      label: “แสบตา” },
-{ key: “headache”, label: “ปวดศีรษะ” },
+{ key: "cough",    label: "ไอ คัดจมูก น้ำมูก แสบคอ" },
+{ key: "breath",   label: "หายใจไม่เต็มอิ่ม" },
+{ key: "eye",      label: "แสบตา" },
+{ key: "headache", label: "ปวดศีรษะ" },
 ];
 
 const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
@@ -52,7 +52,7 @@ posture:  pick([0,1,1,2,2]),
 awkward:  pick([0,0,1,2,2]),
 };
 
-// นับข้อที่ “มีผลต่อสุขภาพ” (=2)
+// นับข้อที่ "มีผลต่อสุขภาพ" (=2)
 const hazardCount = Object.values(hazards).filter(v => v === 2).length;
 
 // ข้อ 91: PM2.5 (0=ไม่มี, 1=น้อย, 2=ปานกลาง, 3=มาก, 4=รุนแรงมาก)
@@ -66,7 +66,7 @@ breath:   pm25Level >= 3 && rand(0,1) === 1,
 eye:      pm25Level >= 2 && rand(0,1) === 1,
 headache: pm25Level >= 2 && rand(0,1) === 1,
 };
-const symptomCount = Object.entries(symptoms).filter(([k,v]) => k !== “none” && v).length;
+const symptomCount = Object.entries(symptoms).filter(([k,v]) => k !== "none" && v).length;
 
 // ข้อ 93: คุณภาพชีวิตโดยรวม 0-4
 const qualityOfLife = rand(0, 4);
@@ -77,7 +77,7 @@ const qualityOfLife = rand(0, 4);
 // ปกติ = ไม่มีเลย
 const pmRisk = pm25Level >= 3 && symptomCount > 0;
 const envRiskScore = hazardCount + (pmRisk ? 1 : 0);
-const envGroup = envRiskScore >= 2 ? “high” : envRiskScore >= 1 ? “medium” : “low”;
+const envGroup = envRiskScore >= 2 ? "high" : envRiskScore >= 1 ? "medium" : "low";
 
 return {
 id: idx + 1, name,
@@ -94,25 +94,25 @@ const employees = NAMES.map((n, i) => genEmployee(n, i));
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const GROUP_CFG = {
-high:   { label: “เสี่ยงสูง”,   color: “#EF4444”, bg: “#FEF2F2”, dot: “🔴” },
-medium: { label: “เฝ้าระวัง”, color: “#F59E0B”, bg: “#FFFBEB”, dot: “🟠” },
-low:    { label: “ปกติ”,        color: “#10B981”, bg: “#F0FDF4”, dot: “🟢” },
+high:   { label: "เสี่ยงสูง",   color: "#EF4444", bg: "#FEF2F2", dot: "🔴" },
+medium: { label: "เฝ้าระวัง", color: "#F59E0B", bg: "#FFFBEB", dot: "🟠" },
+low:    { label: "ปกติ",        color: "#10B981", bg: "#F0FDF4", dot: "🟢" },
 };
 
-const SAT_LABELS = [“แย่มาก”,“แย่”,“ปานกลาง”,“ดี”,“ดีมาก”];
-const SAT_COLORS = [”#EF4444”,”#F97316”,”#F59E0B”,”#22C55E”,”#10B981”];
-const PM_LABELS  = [“ไม่มี”,“น้อย”,“ปานกลาง”,“มาก”,“รุนแรงมาก”];
-const PM_COLORS  = [”#10B981”,”#84CC16”,”#F59E0B”,”#F97316”,”#EF4444”];
-const HAZARD_LABELS = [“ไม่มี”,“มี ไม่กระทบ”,“มี กระทบสุขภาพ”];
+const SAT_LABELS = ["แย่มาก","แย่","ปานกลาง","ดี","ดีมาก"];
+const SAT_COLORS = ["#EF4444","#F97316","#F59E0B","#22C55E","#10B981"];
+const PM_LABELS  = ["ไม่มี","น้อย","ปานกลาง","มาก","รุนแรงมาก"];
+const PM_COLORS  = ["#10B981","#84CC16","#F59E0B","#F97316","#EF4444"];
+const HAZARD_LABELS = ["ไม่มี","มี ไม่กระทบ","มี กระทบสุขภาพ"];
 
 const pct = (n, total) => total > 0 ? Math.round((n / total) * 100) : 0;
 
 const Tag = ({ label, color, small }) => (
 <span style={{
-background: color + “22”, color, border: `1px solid ${color}44`,
-padding: small ? “1px 7px” : “3px 10px”,
+background: color + "22", color, border: `1px solid ${color}44`,
+padding: small ? "1px 7px" : "3px 10px",
 borderRadius: 999, fontSize: small ? 10 : 11, fontWeight: 700,
-fontFamily: “‘Sarabun’,sans-serif”,
+fontFamily: "'Sarabun',sans-serif",
 }}>{label}</span>
 );
 
@@ -120,13 +120,13 @@ fontFamily: “‘Sarabun’,sans-serif”,
 const CustomTooltip = ({ active, payload, label }) => {
 if (!active || !payload?.length) return null;
 return (
-<div style={{ background:”#1E293B”, borderRadius:10, padding:“12px 16px”, fontFamily:”‘Sarabun’,sans-serif” }}>
-<div style={{ color:”#94A3B8”, fontSize:11, marginBottom:8 }}>{label}</div>
+<div style={{ background:"#1E293B", borderRadius:10, padding:"12px 16px", fontFamily:"'Sarabun',sans-serif" }}>
+<div style={{ color:"#94A3B8", fontSize:11, marginBottom:8 }}>{label}</div>
 {payload.map((p, i) => (
-<div key={i} style={{ display:“flex”, gap:10, alignItems:“center”, marginBottom:4 }}>
-<div style={{ width:8, height:8, borderRadius:“50%”, background:p.fill || p.color }} />
-<span style={{ fontSize:12, color:”#E2E8F0” }}>{p.name}:</span>
-<span style={{ fontSize:12, fontWeight:700, color:”#fff” }}>{p.value} คน</span>
+<div key={i} style={{ display:"flex", gap:10, alignItems:"center", marginBottom:4 }}>
+<div style={{ width:8, height:8, borderRadius:"50%", background:p.fill || p.color }} />
+<span style={{ fontSize:12, color:"#E2E8F0" }}>{p.name}:</span>
+<span style={{ fontSize:12, fontWeight:700, color:"#fff" }}>{p.value} คน</span>
 </div>
 ))}
 </div>
@@ -135,21 +135,21 @@ return (
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 export default function EnvDashboard() {
-const [tab, setTab] = useState(“overview”);
-const [filter, setFilter] = useState(“all”);
+const [tab, setTab] = useState("overview");
+const [filter, setFilter] = useState("all");
 const [selectedEmp, setSelectedEmp] = useState(null);
 
-const listData = […employees]
+const listData = [...employees]
 .sort((a, b) => b.envRiskScore - a.envRiskScore)
-.filter(e => filter === “all” || e.envGroup === filter);
+.filter(e => filter === "all" || e.envGroup === filter);
 
-const highRisk   = employees.filter(e => e.envGroup === “high”);
-const medRisk    = employees.filter(e => e.envGroup === “medium”);
-const lowRisk    = employees.filter(e => e.envGroup === “low”);
+const highRisk   = employees.filter(e => e.envGroup === "high");
+const medRisk    = employees.filter(e => e.envGroup === "medium");
+const lowRisk    = employees.filter(e => e.envGroup === "low");
 
 // Hazard summary
 const hazardSummary = HAZARDS.map(h => ({
-…h,
+...h,
 affected: employees.filter(e => e.hazards[h.key] === 2).length,
 watch:    employees.filter(e => e.hazards[h.key] === 1).length,
 none:     employees.filter(e => e.hazards[h.key] === 0).length,
@@ -170,28 +170,27 @@ const deptData = DEPTS.map(d => {
 const grp = employees.filter(e => e.dept === d);
 return {
 name: d,
-“เสี่ยงสูง”:   grp.filter(e => e.envGroup === “high”).length,
-“เฝ้าระวัง”: grp.filter(e => e.envGroup === “medium”).length,
-“ปกติ”:        grp.filter(e => e.envGroup === “low”).length,
+"เสี่ยงสูง":   grp.filter(e => e.envGroup === "high").length,
+"เฝ้าระวัง": grp.filter(e => e.envGroup === "medium").length,
+"ปกติ":        grp.filter(e => e.envGroup === "low").length,
 };
 });
 
 // Radar: hazard profile org
 const radarData = HAZARDS.map(h => ({
-dim: h.icon + “ “ + h.label.substring(0, 6),
+dim: h.icon + " " + h.label.substring(0, 6),
 fullLabel: h.label,
-“กระทบสุขภาพ”: Math.round((employees.filter(e => e.hazards[h.key] === 2).length / employees.length) * 100),
-“มีแต่ไม่กระทบ”: Math.round((employees.filter(e => e.hazards[h.key] === 1).length / employees.length) * 100),
+"กระทบสุขภาพ": Math.round((employees.filter(e => e.hazards[h.key] === 2).length / employees.length) * 100),
+"มีแต่ไม่กระทบ": Math.round((employees.filter(e => e.hazards[h.key] === 1).length / employees.length) * 100),
 }));
 
 const avgSat = (employees.reduce((s,e) => s + e.envSatisfaction, 0) / employees.length).toFixed(1);
 const avgQol = (employees.reduce((s,e) => s + e.qualityOfLife, 0) / employees.length).toFixed(1);
 
 return (
-<div style={{ fontFamily:”‘Sarabun’,sans-serif”, background:”#F1F5F9”, minHeight:“100vh” }}>
+<div style={{ fontFamily:"'Sarabun',sans-serif", background:"#F1F5F9", minHeight:"100vh" }}>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-```
   {/* ── Header ── */}
   <div style={{
     background:"linear-gradient(135deg,#1E3A5F 0%,#1D4ED8 60%,#2563EB 100%)",
@@ -205,7 +204,7 @@ return (
           </div>
           <h1 style={{ margin:0, fontSize:22, fontWeight:800 }}>🌿 รายงานสภาพแวดล้อมบุคลากร</h1>
           <div style={{ fontSize:12, color:"#BFDBFE", marginTop:4 }}>
-            NIDA · {employees.length} คน · ข้อ 84–93 เฉพาะที่นำไปใช้ IDP ได้
+            NIDA · {employees.length} คน · ข้อ 84-93 เฉพาะที่นำไปใช้ IDP ได้
           </div>
         </div>
         <div style={{ display:"flex", gap:10 }}>
@@ -231,8 +230,8 @@ return (
         background:"rgba(0,0,0,0.2)", borderRadius:"10px 10px 0 0",
         padding:"10px 20px", fontSize:12, color:"#BFDBFE", marginBottom:0
       }}>
-        📌 <strong>หมายเหตุ:</strong> รายงานนี้แสดงผลเฉพาะข้อ 84–93 ที่เชื่อมกับการออกแบบ IDP ·
-        ข้อ 94–97 (โรคอุบัติใหม่ / ภูมิอากาศ) เก็บข้อมูลครบแต่ไม่นำมาแสดงเนื่องจากไม่ส่งผลต่อ IDP รายบุคคล
+        📌 <strong>หมายเหตุ:</strong> รายงานนี้แสดงผลเฉพาะข้อ 84-93 ที่เชื่อมกับการออกแบบ IDP ·
+        ข้อ 94-97 (โรคอุบัติใหม่ / ภูมิอากาศ) เก็บข้อมูลครบแต่ไม่นำมาแสดงเนื่องจากไม่ส่งผลต่อ IDP รายบุคคล
       </div>
 
       {/* Tabs */}
@@ -349,7 +348,7 @@ return (
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
             <div style={{ width:4, height:20, background:"#1D4ED8", borderRadius:2 }} />
             <div>
-              <div style={{ fontSize:15, fontWeight:800, color:"#1E3A5F" }}>อันตรายในสภาพแวดล้อมทำงาน (ข้อ 85–90)</div>
+              <div style={{ fontSize:15, fontWeight:800, color:"#1E3A5F" }}>อันตรายในสภาพแวดล้อมทำงาน (ข้อ 85-90)</div>
               <div style={{ fontSize:11, color:"#9CA3AF" }}>เรียงจากกระทบสุขภาพมากที่สุด · แดง = กระทบสุขภาพ · เหลือง = มีแต่ไม่กระทบ</div>
             </div>
           </div>
@@ -403,7 +402,7 @@ return (
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
               <div style={{ width:4, height:20, background:"#F97316", borderRadius:2 }} />
               <div>
-                <div style={{ fontSize:14, fontWeight:800, color:"#1E3A5F" }}>มลพิษ PM2.5 (ข้อ 91–92)</div>
+                <div style={{ fontSize:14, fontWeight:800, color:"#1E3A5F" }}>มลพิษ PM2.5 (ข้อ 91-92)</div>
                 <div style={{ fontSize:11, color:"#9CA3AF" }}>ระดับในพื้นที่อยู่อาศัย + อาการที่เกิดขึ้น</div>
               </div>
             </div>
@@ -649,7 +648,7 @@ return (
 
               {/* อันตรายงาน IDP */}
               <div style={{ background:"#fff", borderRadius:14, padding:20, boxShadow:"0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize:13, fontWeight:800, color:"#1E3A5F", marginBottom:4 }}>⚠️ อันตรายในสภาพแวดล้อมงาน — แนวทาง IDP</div>
+                <div style={{ fontSize:13, fontWeight:800, color:"#1E3A5F", marginBottom:4 }}>⚠️ อันตรายในสภาพแวดล้อมงาน -- แนวทาง IDP</div>
                 <div style={{ fontSize:11, color:"#9CA3AF", marginBottom:14 }}>
                   ข้อที่กระทบสุขภาพ = บุคคลป้องกันตนเองได้ · ข้อสีเหลือง = องค์กรต้องแก้ไขเพิ่มเติม
                 </div>
@@ -697,7 +696,7 @@ return (
               {/* PM2.5 IDP */}
               {(selectedEmp.pm25Level >= 2 || selectedEmp.symptomCount > 0) && (
                 <div style={{ background:"#fff", borderRadius:14, padding:20, boxShadow:"0 1px 3px rgba(0,0,0,0.06)" }}>
-                  <div style={{ fontSize:13, fontWeight:800, color:"#1E3A5F", marginBottom:14 }}>🌫️ PM2.5 — แนวทาง IDP</div>
+                  <div style={{ fontSize:13, fontWeight:800, color:"#1E3A5F", marginBottom:14 }}>🌫️ PM2.5 -- แนวทาง IDP</div>
                   <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
                     <div style={{ background:"#FFF7ED", borderRadius:10, padding:"12px 14px", border:"1px solid #FED7AA" }}>
                       <div style={{ fontSize:12, fontWeight:700, color:"#92400E", marginBottom:6 }}>ระดับ PM2.5 ในพื้นที่</div>
@@ -730,7 +729,7 @@ return (
               {/* ระดับบุคคล vs องค์กร note */}
               <div style={{ background:"#EFF6FF", borderRadius:12, padding:"14px 18px", border:"1px solid #BFDBFE" }}>
                 <div style={{ fontSize:12, fontWeight:700, color:"#1D4ED8", marginBottom:8 }}>
-                  📋 หมายเหตุสำหรับ HR — แยก IDP รายบุคคล vs การแก้ไขระดับองค์กร
+                  📋 หมายเหตุสำหรับ HR -- แยก IDP รายบุคคล vs การแก้ไขระดับองค์กร
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, fontSize:11, color:"#374151" }}>
                   <div>
@@ -755,7 +754,6 @@ return (
     )}
   </div>
 </div>
-```
 
 );
 }
